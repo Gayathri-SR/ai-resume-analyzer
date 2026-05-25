@@ -2,30 +2,31 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-header">
+    <header class="app-header">
         <h2>AI Resume Analyzer</h2>
         <div>Analyze your resume against any job description using AI</div>
-    </div>
-    <div class="main-container">
-        <div class="left-panel">
+    </header>
+    <main class="main-container">
+        <section class="left-panel">
             <div class="resume-text-area card">
                 <h3>Resume</h3>
                 <div>Paste your resume content below</div>
-                <textarea class="resume-text"></textarea>
+                <textarea class="resume-text" placeholder="Paste resume content here"></textarea>
             </div>
             <div class="JD-text-area card">
                 <h3>Job Description</h3>
                 <div>Paste the job description below</div>
-                <textarea class="JD-text"></textarea>
+                <textarea class="JD-text" placeholder="Paste job description here"></textarea>
             </div>
             <button class="analyze-btn">Analyze Resume</button>
-        </div>
-        <div class="right-panel">
+        </section>
+        <section class="right-panel">
             <div class="result-header">
                 <h3>Analysis Result</h3>
                 <div>AI-powered analysis of your resume</div>
             </div>
-            <div class="match-details card">
+            <div class="empty-state hidden"> AI analysis will appear here </div>
+            <div class="match-details-breakdown card">
                 <div class="score-chart-parent">
                     <h4>Overall Match Score</h4>
                     <div class="score-chart"></div>
@@ -54,24 +55,27 @@
                     </div>
                 </div>
             </div>
-            <div class="strengths card">
-                <h5>Strengths</h5>
-                <div class="strengths-data"></div>
+            <div class="analysis-grid">
+                <div class="strengths card">
+                    <h5>Strengths</h5>
+                    <ul class="strengths-data"></ul>
+                </div>
+                <div class="missing-skills card">
+                    <h5>Missing Skills</h5>
+                    <ul class="missing-skills-data"></ul>
+                </div>
+                <div class="matches-and-keywords card">
+                    <h5>Top Matched Skills</h5>
+                    <div class="matched-skills-data"></div>
+                    <h5>Keywords Found</h5>
+                    <div class="keywords-data"></div>
+                </div>
+                <div class="suggestions card">
+                    <h5>Suggestions to Improve</h5>
+                    <ul class="suggestions-data"></ul>
+                </div>
             </div>
-            <div class="missing-skills card">
-                <h5>Missing Skills</h5>
-                <div class="missing-skills-data"></div>
-            </div>
-            <div class="matches-and-keywords card">
-                <h5>Top Matched Skills</h5>
-                <div class="matched-skills-data"></div>
-                <h5>Keywords Found</h5>
-                <div class="keywords-data"></div>
-            </div>
-            <div class="suggestions card">
-                <h5>Suggestions to Improve</h5>
-                <div class="suggestions-data"></div>
-            </div>
-        </div>
-    </div>
+        </section>
+    </main>
+    <script src="script.js"></script>
 </body>
