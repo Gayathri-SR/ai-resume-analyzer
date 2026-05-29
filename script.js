@@ -11,10 +11,12 @@ analyzeButton.addEventListener("click", async function() {
 
     const result = await analyzeResume(resumeContent, jdContent);
     console.log(result);
+    const aiText = result.candidates[0].content.parts[0].text;
+    console.log(aiText);
 });
 
 async function analyzeResume(resume, jd) {
-    const apiKey = "AIzaSyA4820vN_AVwJdXqF5tftEMTs3YGZZmJTc"; //temporary exposure for learning
+    const apiKey = API_KEY;
 
     const prompt = ` Analyze this resume against the job description. Return :
         1. Match score
