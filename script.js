@@ -1,5 +1,8 @@
 const analyzeButton = document.querySelector('.analyze-btn');
 analyzeButton.addEventListener("click", async function() {
+    this.disabled = true;
+    this.textContent = "Analyzing...";
+
     const leftPanel = this.closest('.left-panel');
 
     //temporarily populating resume and JD fields
@@ -17,17 +20,63 @@ analyzeButton.addEventListener("click", async function() {
     }
 
     const result = await analyzeResume(resumeContent, jdContent);
-    const aiText = JSON.parse(result.candidates[0].content.parts[0].text);
-    console.log(aiText);
+    if (result.error) {
+        alert(result.error.message);
+        this.disabled = false;
+        this.textContent = "Analyze Resume";
+        return;
+    }
 
-    populateScoreChartCard(aiText);
-    populateAnalysisGrid(aiText);
+    try {
+        const rawResponse = result.candidates[0].content.parts[0].text;
+        const cleanedResponse = rawResponse.replace(/```json/g, '')
+                                            .replace(/```/g, '')
+                                            .trim();
+        const aiText = JSON.parse(cleanedResponse);
+    
+        if (!aiText.isValid) {
+            alert(aiText.errorMessage);
+            this.disabled = false;
+            this.textContent = "Analyze Resume";
+            return;
+        }
+        console.log(aiText);
+
+        populateScoreChartCard(aiText);
+        populateAnalysisGrid(aiText);
+        showAnalysisResults();
+        this.disabled = false;
+        this.textContent = "Analyze Resume";
+    }
+    catch(error) {
+        console.error(error);
+        alert("Unable to process AI response.");
+    }
 });
+
+function showAnalysisResults() {
+    const emptyState = document.querySelector('.empty-state');
+    const analysisContent = document.querySelector('.match-details-breakdown');
+
+    emptyState.classList.add('hidden');
+    analysisContent.classList.remove('hidden');
+}
 
 async function analyzeResume(resume, jd) {
     const apiKey = API_KEY;
 
     const prompt = ` Analyze this resume against the job description.
+        If either the resume or job description appears invalid,
+        incomplete, random text, or does not resemble a professional
+        resume/job description, return:
+
+        {
+        "isValid": false,
+        "errorMessage": "Invalid resume or job description provided."
+        }
+
+        Otherwise:
+
         Return ONLY valid JSON.
         For the scores:
         - skillsScore = match of technical and soft skills
@@ -39,6 +88,7 @@ async function analyzeResume(resume, jd) {
 
         The overall matchScore should be based on these factors.
         {
+        "isValid": true,
         "matchScore": 0,
         "skillsScore": 0,
         "experienceScore": 0,
@@ -115,7 +165,7 @@ function populateScoreChartCard(aiText) {
     const matchdetailsBreakdownCard = document.querySelector('.right-panel .match-details-breakdown');
 
     const scoreChart = matchdetailsBreakdownCard.querySelector('.score-chart');
-    scoreChart.textContent = matchScore;
+    scoreChart.textContent = `${matchScore}%`;
 
     const matchHeader = matchdetailsBreakdownCard.querySelector('.match-header');
     const matchDescription = matchdetailsBreakdownCard.querySelector('.match-description');
@@ -124,17 +174,23 @@ function populateScoreChartCard(aiText) {
     matchHeader.textContent = matchDetails.status;
     matchDescription.textContent = matchDetails.description;
     matchStatus.textContent = matchDetails.status;
+    matchStatus.classList.remove(
+        'excellent',
+        'strong',
+        'moderate',
+        'weak'
+    );
     matchStatus.classList.add(matchDetails.pillClass);
 
     const matchBreakdown = matchdetailsBreakdownCard.querySelector('.match-breakdown');
     const skills = matchBreakdown.querySelector('.skills-match .bar-chart');
-    skills.textContent = aiText.skillsScore;
+    skills.textContent = `${aiText.skillsScore}%`;
     const experience = matchBreakdown.querySelector('.experience-match .bar-chart');
-    experience.textContent = aiText.experienceScore;
+    experience.textContent = `${aiText.experienceScore}%`;
     const keywords = matchBreakdown.querySelector('.keywords-match .bar-chart');
-    keywords.textContent = aiText.keywordScore;
+    keywords.textContent = `${aiText.keywordScore}%`;
     const education = matchBreakdown.querySelector('.education-match .bar-chart');
-    education.textContent = aiText.educationScore;
+    education.textContent = `${aiText.educationScore}%`;
 }
 
 function populateAnalysisGrid(aiText) {
