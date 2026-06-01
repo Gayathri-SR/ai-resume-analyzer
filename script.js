@@ -1,8 +1,5 @@
 const analyzeButton = document.querySelector('.analyze-btn');
 analyzeButton.addEventListener("click", async function() {
-    this.disabled = true;
-    this.textContent = "Analyzing...";
-
     const leftPanel = this.closest('.left-panel');
 
     //temporarily populating resume and JD fields
@@ -19,16 +16,22 @@ analyzeButton.addEventListener("click", async function() {
         return;
     }
 
-    const result = await analyzeResume(resumeContent, jdContent);
-    if (result.error) {
-        alert(result.error.message);
-        this.disabled = false;
-        this.textContent = "Analyze Resume";
-        return;
-    }
-
     try {
-        const rawResponse = result.candidates[0].content.parts[0].text;
+        this.disabled = true;
+        this.textContent = "Analyzing...";
+        showLoader();
+
+        const result = await analyzeResume(resumeContent, jdContent);
+        if (result.error) {
+            alert(result.error.message);
+            return;
+        }
+
+        const rawResponse = result?.candidates[0]?.content?.parts[0]?.text;
+        if (!rawResponse) {
+            throw new Error("No valid response received from AI.");
+        }
+        
         const cleanedResponse = rawResponse.replace(/```json/g, '')
                                             .replace(/```/g, '')
                                             .trim();
@@ -36,8 +39,6 @@ analyzeButton.addEventListener("click", async function() {
     
         if (!aiText.isValid) {
             alert(aiText.errorMessage);
-            this.disabled = false;
-            this.textContent = "Analyze Resume";
             return;
         }
         console.log(aiText);
@@ -45,14 +46,25 @@ analyzeButton.addEventListener("click", async function() {
         populateScoreChartCard(aiText);
         populateAnalysisGrid(aiText);
         showAnalysisResults();
-        this.disabled = false;
-        this.textContent = "Analyze Resume";
     }
     catch(error) {
         console.error(error);
         alert("Unable to process AI response.");
     }
+    finally {
+        this.disabled = false;
+        this.textContent = "Analyze Resume";
+        hideLoader();
+    }
 });
+
+function showLoader() {
+    document.querySelector(".loader").style.display = "flex";
+}
+
+function hideLoader() {
+    document.querySelector(".loader").style.display = "none";
+}
 
 function showAnalysisResults() {
     const emptyState = document.querySelector('.empty-state');
@@ -123,6 +135,9 @@ async function analyzeResume(resume, jd) {
             })
         }
     );
+    if (!response.ok) {
+        throw new Error(`HTTP Error: ${response.status}`);
+    }
     const data = await response.json();
     console.log(data);
     return data;
