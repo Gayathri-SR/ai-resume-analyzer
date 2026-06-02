@@ -29,10 +29,24 @@ textarea {
     border: 1px solid #d1d5db;
     border-radius: 8px;
     min-width: 80%;
-    min-height: 40%;
+    min-height: 25%;
     max-width: 80%;
     max-height: 500px;
     overflow: auto;
+    padding: 15px;
+}
+
+.left-panel div {
+    margin-bottom: 30px;
+}
+
+button.analyze-btn {
+    padding: 15px;
+    float: right;
+    margin-right: 20%;
+    border-radius: 8px;
+    background-color: #2B2B51;
+    color: #F5F6F5;
 }
 
 .right-panel {
@@ -70,6 +84,15 @@ textarea {
     border-top: 5px solid #007bff;
     border-radius: 50%;
     animation: spin 1s linear infinite;
+}
+
+.score-match-details {
+    display: flex;
+    gap: 15%;
+}
+
+.match-breakdown div {
+    display: flex;
 }
 
 @keyframes spin {
