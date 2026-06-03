@@ -11,12 +11,10 @@ body {
 }
 
 .card {
-    width: 80%;
-    outline: 1px solid #d1d5db;
-    border-radius: 8px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
     padding: 20px;
-    padding-top: 1px;
-    margin-bottom: 20px;
 }
 
 .left-panel {
@@ -93,6 +91,48 @@ button.analyze-btn {
 
 .match-breakdown div {
     display: flex;
+}
+
+.analysis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 0.9fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.strengths {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.missing-skills {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.matches-and-keywords {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+}
+
+.suggestions {
+    grid-column: 1 / span 2;
+    grid-row: 2;
+}
+
+.matched-skills-data,
+.matched-keywords-data {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.pill {
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid;
+    font-size: 14px;
 }
 
 @keyframes spin {
