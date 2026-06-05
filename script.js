@@ -36,7 +36,7 @@ analyzeButton.addEventListener("click", async function() {
                                             .replace(/```/g, '')
                                             .trim();
         const aiText = JSON.parse(cleanedResponse);
-    
+
         if (!aiText.isValid) {
             alert(aiText.errorMessage);
             return;
@@ -116,7 +116,7 @@ async function analyzeResume(resume, jd) {
         Job description : ${jd}`;
 
     const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
         {
             method: 'POST',
             headers: {
@@ -135,12 +135,23 @@ async function analyzeResume(resume, jd) {
             })
         }
     );
-    if (!response.ok) {
-        throw new Error(`HTTP Error: ${response.status}`);
-    }
+    console.log("Status:", response.status);
     const data = await response.json();
+    console.log("Response:", data);
+
+    if (!response.ok) {
+        throw new Error(data?.error?.message || `HTTP ${response.status}`);
+    }
     console.log(data);
     return data;
+}
+
+function populateScoreChartDiagram(aiText) {
+    const scoreChart = document.querySelector('.score-chart');
+    const scoreValue = scoreChart.querySelector('.score-value');
+
+    scoreChart.style.setProperty('--score', aiText.matchScore);
+    scoreValue.textContent = `${aiText.matchScore}%`;
 }
 
 function getMatchStatus(score) {
@@ -179,8 +190,7 @@ function populateScoreChartCard(aiText) {
     const matchScore = aiText.matchScore;
     const matchdetailsBreakdownCard = document.querySelector('.right-panel .match-details-breakdown');
 
-    const scoreChart = matchdetailsBreakdownCard.querySelector('.score-chart');
-    scoreChart.textContent = `${matchScore}%`;
+    populateScoreChartDiagram(aiText);
 
     const matchHeader = matchdetailsBreakdownCard.querySelector('.match-header');
     const matchDescription = matchdetailsBreakdownCard.querySelector('.match-description');
@@ -198,14 +208,22 @@ function populateScoreChartCard(aiText) {
     matchStatus.classList.add(matchDetails.pillClass);
 
     const matchBreakdown = matchdetailsBreakdownCard.querySelector('.match-breakdown');
-    const skills = matchBreakdown.querySelector('.skills-match .bar-chart');
-    skills.textContent = `${aiText.skillsScore}%`;
-    const experience = matchBreakdown.querySelector('.experience-match .bar-chart');
-    experience.textContent = `${aiText.experienceScore}%`;
-    const keywords = matchBreakdown.querySelector('.keywords-match .bar-chart');
-    keywords.textContent = `${aiText.keywordScore}%`;
-    const education = matchBreakdown.querySelector('.education-match .bar-chart');
-    education.textContent = `${aiText.educationScore}%`;
+
+    const skills = matchBreakdown.querySelector('.skills-match .bar-fill');
+    skills.style.width = `${aiText.skillsScore}%`;
+    matchBreakdown.querySelector('.skills-match .score').textContent = `${aiText.skillsScore}%`;
+
+    const experience = matchBreakdown.querySelector('.experience-match .bar-fill');
+    experience.style.width = `${aiText.experienceScore}%`;
+    matchBreakdown.querySelector('.experience-match .score').textContent = `${aiText.experienceScore}%`;
+
+    const keywords = matchBreakdown.querySelector('.keywords-match .bar-fill');
+    keywords.style.width = `${aiText.keywordScore}%`;
+    matchBreakdown.querySelector('.keywords-match .score').textContent = `${aiText.keywordScore}%`;
+
+    const education = matchBreakdown.querySelector('.education-match .bar-fill');
+    education.style.width = `${aiText.educationScore}%`;
+    matchBreakdown.querySelector('.education-match .score').textContent = `${aiText.educationScore}%`;
 }
 
 function populateAnalysisGrid(aiText) {
