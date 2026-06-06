@@ -25,7 +25,17 @@
             <button class="analyze-btn">Analyze Resume</button>
         </section>
         <section class="right-panel">
-            <div class="empty-state"> AI analysis will appear here </div>
+            <div class="empty-state">
+                <div class="empty-icon"></div>
+                <h3>Ready to Analyze</h3>
+                <p>Paste your resume and job description, then click <strong>Analyze Resume</strong> to receive an AI-poweredmatch score and detailed recommendations.</p>
+                <div class="empty-features">
+                    <div class="feature">Match Score</div>
+                    <div class="feature">Skills Analysis</div>
+                    <div class="feature">Keyword Matching</div>
+                    <div class="feature">Improvement Suggestions</div>
+                </div>
+            </div>
             <div class="match-details-breakdown hidden">
                 <div class="result-header">
                     <h3>Analysis Result</h3>
@@ -33,16 +43,18 @@
                 </div>
                 <div class="score-match-details card">
                     <div class="score-chart-parent">
-                        <h4>Overall Match Score</h4>
+                        <div class="header">Overall Match Score</div>
                         <div class="score-chart">
                             <div class="score-value">82%</div>
                         </div>
                     </div>
+                    <div class="separator"></div>
                     <div class="match-details">
-                        <div class="match-header"></div>
-                        <div class="match-description"></div>
+                        <div class="match-header header"></div>
+                        <div class="match-description data"></div>
                         <div class="match-status pill"></div>
                     </div>
+                    <div class="separator"></div>
                     <div class="match-breakdown">
                         <div class="skills-match">
                             <div class="breakdown-text">Skills Match</div>
@@ -76,21 +88,21 @@
                 </div>
                 <div class="analysis-grid">
                     <div class="strengths card">
-                        <h5>Strengths</h5>
+                        <div class="header">Strengths</div>
                         <ul class="strengths-data"></ul>
                     </div>
                     <div class="missing-skills card">
-                        <h5>Missing Skills</h5>
+                        <div class="header">Missing Skills</div>
                         <ul class="missing-skills-data"></ul>
                     </div>
                     <div class="matches-and-keywords card">
-                        <h5>Top Matched Skills</h5>
+                        <div class="header">Top Matched Skills</div>
                         <div class="matched-skills-data"></div>
-                        <h5>Keywords Found</h5>
+                        <div class="header">Keywords Found</div>
                         <div class="matched-keywords-data"></div>
                     </div>
                     <div class="suggestions card">
-                        <h5>Suggestions to Improve</h5>
+                        <div class="header">Suggestions to Improve</div>
                         <ul class="suggestions-data"></ul>
                     </div>
                 </div>

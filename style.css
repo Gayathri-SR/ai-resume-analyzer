@@ -15,6 +15,8 @@ body {
     border: 1px solid #e5e7eb;
     border-radius: 16px;
     padding: 20px;
+    margin-bottom: 15px;
+    min-height: 200px;
 }
 
 .left-panel {
@@ -45,11 +47,53 @@ button.analyze-btn {
     border-radius: 8px;
     background-color: #2B2B51;
     color: #F5F6F5;
+    cursor: pointer;
 }
 
 .right-panel {
     width: 62%;
-    padding-right: 3%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 700px;
+}
+
+.empty-state {
+    max-width: 500px;
+    text-align: center;
+    padding: 40px;
+    border: 2px dashed #d1d5db;
+    border-radius: 16px;
+    background: #fafafa;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.empty-state h3 {
+    margin-bottom: 12px;
+    font-size: 1.6rem;
+}
+
+.empty-state p {
+    color: #6b7280;
+    line-height: 1.6;
+    margin-bottom: 32px;
+}
+
+.empty-features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.feature {
+    padding: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #fafafa;
 }
 
 .hidden, .loader.hidden {
@@ -58,8 +102,9 @@ button.analyze-btn {
 
 .analysis-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
     gap: 20px;
+    align-items: stretch;
+    grid-template-columns: 1fr 1fr 0.9fr;
 }
 
 .loader {
@@ -87,7 +132,14 @@ button.analyze-btn {
 
 .score-match-details {
     display: flex;
-    gap: 15%;
+    gap: 5%;
+    align-items: center;
+}
+
+.separator {
+    width: 2px;
+    height: 175px;
+    background: #e5e7eb;
 }
 
 .match-breakdown div {
@@ -127,13 +179,6 @@ button.analyze-btn {
     color: #15803d;
 }
 
-.analysis-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 0.9fr;
-    gap: 20px;
-    align-items: start;
-}
-
 .match-breakdown > div {
     display: grid;
     grid-template-columns: 140px 1fr 50px;
@@ -144,6 +189,7 @@ button.analyze-btn {
 
 .bar-chart {
     height: 8px;
+    width: 100;
     background: #e5e7eb;
     border-radius: 999px;
     overflow: hidden;
@@ -187,14 +233,40 @@ button.analyze-btn {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 12px;
+    margin-bottom: 15px;
 }
 
 .pill {
     padding: 6px 12px;
+    width: fit-content;
     border-radius: 999px;
     border: 1px solid;
     font-size: 14px;
+}
+
+.pill.excellent {
+    border-color: #15803d;
+}
+
+.pill.strong {
+    border-color: #22c55e;
+}
+
+.pill.moderate {
+    border-color: gold;
+}
+
+.pill.weak {
+    border-color: maroon;
+}
+
+.header {
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.data {
+    padding-bottom: 10px;
 }
 
 @keyframes spin {

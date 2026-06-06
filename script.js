@@ -196,6 +196,7 @@ function populateScoreChartCard(aiText) {
     const matchDescription = matchdetailsBreakdownCard.querySelector('.match-description');
     const matchStatus = matchdetailsBreakdownCard.querySelector('.match-status');
     const matchDetails = getMatchStatus(matchScore);
+
     matchHeader.textContent = matchDetails.status;
     matchDescription.textContent = matchDetails.description;
     matchStatus.textContent = matchDetails.status;
@@ -231,31 +232,51 @@ function populateAnalysisGrid(aiText) {
 
     const strengths = analysisGrid.querySelector('.strengths-data');
     strengths.innerHTML = "";
-    aiText.strengths.forEach(skill => {
-        strengths.innerHTML += `<li>${skill}</li>`;
-    });
+    if(aiText.strengths.length > 0) {
+        aiText.strengths.forEach(skill => {
+            strengths.innerHTML += `<li class="data">${skill}</li>`;
+        });
+    } else {
+        strengths.innerHTML += '<div class="empty-card">No matching skills found!</div>';
+    }
 
     const missingSkills = analysisGrid.querySelector('.missing-skills-data');
     missingSkills.innerHTML = "";
-    aiText.missingSkills.forEach(skill => {
-        missingSkills.innerHTML += `<li>${skill}</li>`;
-    });
+    if(aiText.missingSkills.length > 0) {
+        aiText.missingSkills.forEach(skill => {
+            missingSkills.innerHTML += `<li class="data">${skill}</li>`;
+        });
+    } else {
+        missingSkills.innerHTML += '<div class="empty-card">No missing skills!</div>';
+    }
 
     const matchedSkills = analysisGrid.querySelector('.matched-skills-data');
     matchedSkills.innerHTML = "";
-    aiText.matchedSkills.forEach(skill => {
-        matchedSkills.innerHTML += `<div class="pill">${skill}</div>`
-    });
+    if(aiText.matchedSkills.length > 0) {
+        aiText.matchedSkills.forEach(skill => {
+            matchedSkills.innerHTML += `<div class="pill">${skill}</div>`
+        });
+    } else {
+        matchedSkills.innerHTML += '<div class="empty-card">No matching skills found!</div>';
+    }
 
     const matchedKeywords = analysisGrid.querySelector('.matched-keywords-data');
     matchedKeywords.innerHTML = "";
-    aiText.matchedKeywords.forEach(keyword => {
-        matchedKeywords.innerHTML += `<div class="pill">${keyword}</div>`;
-    });
+    if(aiText.matchedKeywords.length > 0) {
+        aiText.matchedKeywords.forEach(keyword => {
+            matchedKeywords.innerHTML += `<div class="pill">${keyword}</div>`;
+        });
+    } else {
+        matchedKeywords.innerHTML += '<div class="empty-card">No matching keywords found!</div>';
+    }
 
     const suggestions = analysisGrid.querySelector('.suggestions-data');
     suggestions.innerHTML = "";
-    aiText.suggestions.forEach(suggestion => {
-        suggestions.innerHTML += `<li>${suggestion}</li>`;
-    });
+    if(aiText.suggestions.length > 0) {
+        aiText.suggestions.forEach(suggestion => {
+            suggestions.innerHTML += `<li class="data">${suggestion}</li>`;
+        });
+    } else {
+        suggestions.innerHTML += '<div class="empty-card">No suggestions found!</div>';
+    }
 }
